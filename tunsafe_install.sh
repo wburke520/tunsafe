@@ -63,26 +63,27 @@ then
 sudo cat > /etc/tunsafe/TunSafe.conf <<-EOF
 [Interface]
 PrivateKey = $s1
-Address = 10.0.0.1/24 
+Address = 10.0.0.1/24, fd10:db31:203:ab31::1/64 
 ObfuscateKey = $obfsstr
-PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -A FORWARD -o tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE
-PostDown = iptables -D FORWARD -i tun0 -j ACCEPT; iptables -D FORWARD -o tun0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
+PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE; ip6tables -A FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o $eth -j MASQUERADE
+PostDown = iptables -D FORWARD -i $eth -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE; ip6tables -D FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o $eth -j MASQUERADE
+
 ListenPort = $port
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888 
 MTU = 1380
 
 [Peer]
 PublicKey = $c2
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.0.0.2/32, fd10:db31:203:ab31::2 
 EOF
 
 
 sudo cat > /etc/tunsafe/client.conf <<-EOF
 [Interface]
 PrivateKey = $c1
-Address = 10.0.0.2/24 
+Address = 10.0.0.2/24, fd10:db31:203:ab31::2/64 
 ObfuscateKey = $obfsstr
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888 
 MTU = 1380
 
 [Peer]
@@ -98,26 +99,26 @@ then
 sudo cat > /etc/tunsafe/TunSafe.conf <<-EOF
 [Interface]
 PrivateKey = $s1
-Address = 10.0.0.1/24 
+Address = 10.0.0.1/24, fd10:db31:203:ab31::1/64 
 ObfuscateKey = $obfsstr
 ListenPortTCP = $port
-PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -A FORWARD -o tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE
-PostDown = iptables -D FORWARD -i tun0 -j ACCEPT; iptables -D FORWARD -o tun0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
-DNS = 8.8.8.8
+PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE; ip6tables -A FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o $eth -j MASQUERADE
+PostDown = iptables -D FORWARD -i $eth -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE; ip6tables -D FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o $eth -j MASQUERADE
+DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = 1380
 
 [Peer]
 PublicKey = $c2
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.0.0.2/32, fd10:db31:203:ab31::2
 EOF
 
 
 sudo cat > /etc/tunsafe/client.conf <<-EOF
 [Interface]
 PrivateKey = $c1
-Address = 10.0.0.2/24 
+Address = 10.0.0.2/24, fd10:db31:203:ab31::2/64 
 ObfuscateKey = $obfsstr
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = 1380
 
 [Peer]
@@ -133,29 +134,29 @@ then
 sudo cat > /etc/tunsafe/TunSafe.conf <<-EOF
 [Interface]
 PrivateKey = $s1
-Address = 10.0.0.1/24 
+Address = 10.0.0.1/24, fd10:db31:203:ab31::1/64 
 ObfuscateKey = $obfsstr
 ListenPortTCP = 443
 ObfuscateTCP=tls-chrome
-PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -A FORWARD -o tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE
-PostDown = iptables -D FORWARD -i tun0 -j ACCEPT; iptables -D FORWARD -o tun0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
+PostUp   = iptables -A FORWARD -i tun0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE; ip6tables -A FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o $eth -j MASQUERADE
+PostDown = iptables -D FORWARD -i $eth -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE; ip6tables -D FORWARD -i tun0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o $eth -j MASQUERADE
 ListenPort = $port
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = 1380
 
 [Peer]
 PublicKey = $c2
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.0.0.2/32, fd10:db31:203:ab31::2
 EOF
 
 
 sudo cat > /etc/tunsafe/client.conf <<-EOF
 [Interface]
 PrivateKey = $c1
-Address = 10.0.0.2/24 
+Address = 10.0.0.2/24, fd10:db31:203:ab31::2/64 
 ObfuscateKey = $obfsstr
 ObfuscateTCP=tls-chrome
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = 1380
 
 [Peer]
@@ -203,12 +204,12 @@ add_user(){
     ipnum=$(grep Allowed /etc/tunsafe/TunSafe.conf | tail -1 | awk -F '[ ./]' '{print $6}')
     newnum=$((10#${ipnum}+1))
     sed -i 's%^PrivateKey.*$%'"PrivateKey = $(cat temprikey)"'%' $newname.conf
-    sed -i 's%^Address.*$%'"Address = 10.0.0.$newnum\/24"'%' $newname.conf
+    sed -i 's%^Address.*$%'"Address = 10.0.0.$newnum\/24, fd10:db31:203:ab31::$newnum\/64 "'%' $newname.conf
 
 cat >> /etc/tunsafe/TunSafe.conf <<-EOF
 [Peer]
 PublicKey = $(cat tempubkey)
-AllowedIPs = 10.0.0.$newnum/32
+AllowedIPs = 10.0.0.$newnum/32, fd10:db31:203:ab31::$newnum 
 EOF
     tunsafe set tun0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum/32
     green "添加完成，文件：/etc/tunsafe/$newname.conf"
