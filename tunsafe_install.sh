@@ -36,6 +36,8 @@ tunsafe_install(){
     sudo make && sudo make install
     
     sudo echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
+    sudo echo net.ipv6.conf.all.forwarding = 1 >> /etc/sysctl.conf
+    sudo echo net.ipv6.conf.default.accept_ra = 2 >> /etc/sysctl.conf
     sysctl -p
     echo "1"> /proc/sys/net/ipv4/ip_forward
     
